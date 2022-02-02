@@ -1,0 +1,25 @@
+{
+  "name": "discordbot-chef-wildcat",
+  "version": "1.0.0",
+  "description": "bot for discord",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kmek/DiscordBot-Chef-Wildcat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kmek/DiscordBot-Chef-Wildcat/issues"
+  },
+  "homepage": "https://github.com/Kmek/DiscordBot-Chef-Wildcat#readme",
+  "dependencies": {
+    "@discordjs/rest": "^0.3.0",
+    "console": "^0.7.2",
+    "discord.js": "^13.6.0",
+    "pg": "^8.7.1"
+  }
+}

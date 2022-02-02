@@ -1,0 +1,5 @@
+# Don't track this folder from NodeJS
+node_modules/
+
+# Don't want to accidentally commit token to github
+./config.json
