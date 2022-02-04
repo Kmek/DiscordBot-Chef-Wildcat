@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  chefwildcat-bot:
+    container_name: chefwildcat
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - 3001:3001
+    build:
+      context: ./
+      dockerfile: Dockerfile
