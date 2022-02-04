@@ -24,3 +24,12 @@ Create a `config.json` file with the following format.
 
 ### Slash commands
 These slash commands can be uploaded to a testing server using the `deploy-commands.js` script, given that the server `guildId` is saved in the config file and that the bot has been invited to the server with the slash command permission.
+
+```powershell
+# For uploading to a guild for testing
+node deploy-commands.js
+# For uploading globally
+node deploy-commands.js -g
+```
+
+The commands uploaded to a test server will all have "dev" added to the end of them, to distinguish between previously uploaded global commands. 
