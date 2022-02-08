@@ -7,9 +7,10 @@ Can be installed with `npm install <package>`
  - Discord.js
  - @discordjs/rest
  - pg
+ - sequelize
 
-### Install PostgreSQL
-Can be downloaded from [EnterpriseDB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads).
+### PostgreSQL
+`pgAdmin` can be downloaded from [postgreSQL](https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.4/windows/).
 
 ### `config.json` Format
 Create a `config.json` file with the following format.
@@ -18,7 +19,7 @@ Create a `config.json` file with the following format.
     "token": "bot token here",
     "clientId": "oath2 client id here",
     "guildId": "testing server id here",
-    "adminRole": "role name here"
+    "adminRole": "role name here, for running certain commands"
 }
 ```
 

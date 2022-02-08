@@ -23,6 +23,7 @@ module.exports = {
 
         if (interaction.channel instanceof DMChannel) {
             console.log("IN A DM");
+            // todo
         } else {
             let guildId = interaction.guild.id
             console.log("Guild: " + guildId);
@@ -30,8 +31,10 @@ module.exports = {
             // Check for role
             if (interaction.member.roles.cache.find(r => r.name === adminRole)) {
                 console.log("permission granted");
+                // todo
             } else {
-                interaction.reply("");
+                interaction.reply({content: "error wrong role", ephemeral: true });
+                return;
             }
         }
 
