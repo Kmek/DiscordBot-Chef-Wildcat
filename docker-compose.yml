@@ -4,8 +4,8 @@ services:
   chefwildcat-bot:
     container_name: chefwildcat
     build:
-      context: ./
-      dockerfile: Dockerfile
+      context: ./chefwildcat-bot/
+      dockerfile: ChefWildcat
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
@@ -19,6 +19,25 @@ services:
       - PGHOST=pgdb
     depends_on:
       - pgdb
+  # webpage:
+  #   container_name: webpage
+  #   build:
+  #     context: ./
+  #     dockerfile: ./webpage/WebPage
+  #   volumes:
+  #     - .:/usr/app/
+  #     - /usr/app/node_modules
+  #   ports:
+  #     - 3003:3003
+  #   environment: 
+  #     - EXTERNAL_PORT=3003
+  #     - PGUSER=admin
+  #     - PGPASSWORD=12345
+  #     - PGDATABASE=defaultdb
+  #     - PGHOST=pgdb
+  #   depends_on:
+  #     - pgdb
+  #     - chefwildcat-bot
   pgdb: 
     container_name: pgdb
     image: 'postgres:12'

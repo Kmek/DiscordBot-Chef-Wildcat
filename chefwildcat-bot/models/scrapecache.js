@@ -38,3 +38,5 @@ module.exports = {
     ScrapeCache: ScrapeCache
 };
 
+//  idea: could put db specific functions in these exports
+

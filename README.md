@@ -2,7 +2,7 @@
 
 ## Bot Setup
 
-### NodeJS Dependencies To Install with NPM
+### `/ChefWildcat-bot` NodeJS Dependencies To Install with NPM
 Can be installed with `npm install <package>`
  - Discord.js
  - @discordjs/rest
@@ -10,6 +10,13 @@ Can be installed with `npm install <package>`
  - sequelize
  - axios
  - cheerio
+
+<!-- ### `/WebPage` NodeJS Dependencies To Install with NPM
+Can be installed with `npm install <package>`
+ - pg
+ - sequelize
+ - express -->
+ <!-- - fs? -->
 
 ### PostgreSQL
 `pgAdmin` can be downloaded from [postgreSQL](https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.4/windows/).
@@ -73,4 +80,10 @@ A command for
  - Send dockerfile to PaaS (to be determined)
  - Start up discordbot and db from dockerfile
  - Discordbot can be used then
+ -->
+
+ <!-- idea
+ Should the diningHall info be imported as a global object once into the js program, then it can be constantly accessed with ease?
+ is this faster/better than fetching from the db all the time?
+ Should there be a diningHall object that is just returned from the db and passed around per interaction?
  -->

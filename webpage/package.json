@@ -1,0 +1,26 @@
+{
+  "name": "statpage",
+  "version": "1.0.0",
+  "description": "For viewing the pg dd for my discord bot",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kmek/DiscordBot-Chef-Wildcat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kmek/DiscordBot-Chef-Wildcat/issues"
+  },
+  "homepage": "https://github.com/Kmek/DiscordBot-Chef-Wildcat#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.17.3",
+    "pg": "^8.7.3",
+    "sequelize": "^6.17.0"
+  }
+}
