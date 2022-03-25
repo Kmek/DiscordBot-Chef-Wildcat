@@ -5,6 +5,7 @@
 const config = require("./config.json");
 const fs = require('fs');
 const { Client, Intents, Collection } = require('discord.js');
+const { sequelizeInstance } = require('./util/database.js');
 
 // Make client
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, 
@@ -19,11 +20,61 @@ for (const f of commandFiles) {
     console.log("\tfound command " + command.data.name);
 }
 
+const { ScrapeCache } = require('./models/scrapecache.js');
+const { DiningHalls, initializeDiningHalls } = require("./models/dininghalls");
+const { diningHallToId, todayDate, toTable } = require('./util/db-helpers.js');
+
+
 // Shows when bot is ready to go
-client.on("ready", () => {
+client.on("ready", async () => {
     console.log("\n" + client.user.username);
     console.log("I am ready!\n");
-})
+
+    // Connect to PostgreSQL
+    try {
+        // await sequelizeInstance.sync();
+        await sequelizeInstance.sync({ force: true }); // For recreating tables
+        // await sequelizeInstance.sync({ alter: true }) // For updating models with saving rows as best as possible
+        await initializeDiningHalls();
+        console.log("Connection to postgres complete!\n");
+    } catch (e) {
+        console.log(e);
+        console.log("ERROR: unable to connect to db!");
+        process.exit();
+    }
+
+    // fixme testing
+    await ScrapeCache.create({
+        date: todayDate(),
+        hall: "hoco",
+        lunch: "asdfghj2",
+        DiningHallId: await diningHallToId("hoco")
+    });
+
+    // fixme testing
+    ScrapeCache.findAll()
+        .then(x => {
+            // console.log(x);
+            toTable(x);
+        }).catch(e => {
+            console.log('Oops! something went wrong, : ', e);
+        });
+
+    
+
+    // console.log(sequelizeInstance.models);
+
+    // ScrapeCache.findAll({
+    //     where: {
+    //         mealtime: "lunch"
+    //     }
+    // }).then(x => {
+    //     console.log(x);
+    // }).catch(e => {
+    //     console.log('Oops! something went wrong, : ', e);
+    // })
+        
+});
 
 // // Dynamic parsing of DMed commands
 // client.on("messageCreate", async msg => {
@@ -56,7 +107,7 @@ client.on('interactionCreate', async interaction => {
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
-        await interaction.reply({content: 'An error occurred!', ephemeral: true});
+        await interaction.followUp({content: 'An error occurred! Apologies!', ephemeral: true});
     }
 });
 

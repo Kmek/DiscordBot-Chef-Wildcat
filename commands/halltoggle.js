@@ -11,9 +11,9 @@ module.exports = {
             option.setName('hall')
                 .setDescription('Dining hall to toggle')
                 .setRequired(true)
-                .addChoice('Philbrook', 'Philbrook')
-                .addChoice('Holloway Commons', 'Holloway Commons')
-                .addChoice('Stillings', 'Stillings')
+                .addChoice('Philbrook', 'philly')
+                .addChoice('Holloway Commons', 'hoco')
+                .addChoice('Stillings', 'stillings')
                 .addChoice('All', 'All')),
     async execute(interaction) {
         let hall = interaction.options.getString("hall");
@@ -23,7 +23,7 @@ module.exports = {
 
         if (interaction.channel instanceof DMChannel) {
             console.log("IN A DM");
-            // todo
+            // todo check dmsubs table
         } else {
             let guildId = interaction.guild.id
             console.log("Guild: " + guildId);
@@ -31,13 +31,12 @@ module.exports = {
             // Check for role
             if (interaction.member.roles.cache.find(r => r.name === adminRole)) {
                 console.log("permission granted");
-                // todo
+                // todo check serversubs table
             } else {
                 interaction.reply({content: "error wrong role", ephemeral: true });
                 return;
             }
         }
-
 
         // todo store this somewhere?
 

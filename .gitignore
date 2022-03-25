@@ -3,3 +3,5 @@ node_modules/
 
 # Don't want to accidentally commit token to github
 config.json
+
+utils/db-testing.js

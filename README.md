@@ -8,6 +8,8 @@ Can be installed with `npm install <package>`
  - @discordjs/rest
  - pg
  - sequelize
+ - axios
+ - cheerio
 
 ### PostgreSQL
 `pgAdmin` can be downloaded from [postgreSQL](https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.4/windows/).
@@ -26,8 +28,49 @@ Create a `config.json` file with the following format.
 ### Slash commands
 These slash commands can be uploaded to a testing server using the `deploy-commands.js` script, given that the server `guildId` is saved in the config file and that the bot has been invited to the server with the slash command permission. Run using `node deploy-commands.js <flag>` with up to one flag at a time. The commands uploaded to a test server will all have "dev" added to the end of their descriptions, to distinguish between previously uploaded global commands. 
 
+### Docker
+This application is containerized, so `Docker` must be started before running `docker-compose up -d`. The application runs in a `NodeJS` container named `chefwildcat`, and the `Postgres` database is in a container named `pgdb`. For testing, the `docker-compose up --build` can be used to follow the outputs of the containers.
+
 ##### Flags
 - None: Default, uploads commands to a guild for testing
 - `-g`: Uploads commands globally (may take an hour to reflect on Discord)
 - `-ct`: Clears testing commands from the test guild (does not remove global commands)
 - `-cg`: Clears global commands (may take an hour)
+
+## Commands
+The following commands are implemented in this bot:
+
+#### `/ping`
+A simple ping-pong command for testing if the bot is running.
+
+#### `/test`
+A command for 
+
+#### `/halltoggle`
+
+#### `/refresh`
+
+<!-- 
+- philly, hoco, stillings (show all 3 menus)
+- breakfast, lunch, dinner (by subscriptions, or by all dining halls?)
+- search for a menu items
+- favorite, removefavorite
+- dislike, removedislike
+- showsubs
+ -->
+
+ <!-- idea
+ Count how many queries of everything there is, how many users, etc.
+ New database table for this stuff
+ Make an express webserver that reads from this
+ Maybe make a new container for this webserver so it can run separately from chef wildcat, but still access pgdb -->
+
+ <!-- todo
+ idea CI-CD Pipeline:
+ - Commit to git repo (main branch only)
+ - Run deploy-commands.js globally
+ - Build dockerfile
+ - Send dockerfile to PaaS (to be determined)
+ - Start up discordbot and db from dockerfile
+ - Discordbot can be used then
+ -->
