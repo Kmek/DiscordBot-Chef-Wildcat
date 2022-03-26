@@ -8,8 +8,6 @@ module.exports = {
     async execute(interaction) {
         // await interaction.deferReply();
 
-        // let data = await scrape();
-        
         // await interaction.editReply({ embeds: [embed, embed]});
         await interaction.followUp('Pong again!');
     }

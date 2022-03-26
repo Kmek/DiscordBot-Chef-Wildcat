@@ -1,14 +1,15 @@
 // Helper functions for manipulating the postgres database
 
 const { MessageEmbed } = require('discord.js');
-const { DiningHalls } = require("../models/dininghalls");
+const { diningHallToId, getHallUrl } = require("../models/dininghalls");
+const { getCachedScrape, saveScrapeToCache } = require("../models/scrapecache");
 const axios = require('axios');
 const cheerio = require('cheerio');
 
 // Function for scraping the menu items out of the div and into a list
-const extractMenuItemsFromDiv = ($, mealtime) => [
+const extractMenuItemsFromDiv = ($, mealTime) => [
 	...new Set(
-		$("#" + mealtime + " table.meal-column tr td div") // Select meal div
+		$("#" + mealTime + " table.meal-column tr td div") // Select meal div
 			.map((_, a) => $(a).text())
 			.toArray() // Convert cheerio object to array
 	),
@@ -16,31 +17,8 @@ const extractMenuItemsFromDiv = ($, mealtime) => [
 
 /******************** Exports ********************/
 
-// Function for finding the id of a hall given the hall name
-exports.diningHallToId = async (hallName) => {
-    let toReturn = null;
-    await DiningHalls.findAll({
-            where: {
-                hall: hallName
-            }
-        }).then(x => {
-            // todo check that element was found first, return default value if not
-            // console.log("id: " + x[0].id);
-            toReturn = x[0].id;
-        }).catch(e => {
-            console.log('Oops! something went wrong, : ', e);
-        });
-    return toReturn;
-}
-
-// Function for getting the name of a dining hall given the id
-exports.idToDiningHall = async (id) => {
-    // todo
-    // question needed?
-}
-
 // Gets today's date
-exports.todayDate = () => { // question needed?
+exports.todayDate = () => {
     return new Date();
 }
 
@@ -54,44 +32,39 @@ exports.toTable = (rows) => {
     console.table(arr);
 }
 
-// Gets the url of the hall given the name
-exports.getHallUrl = async (hallName) => {
-    let toReturn = null;
-    await DiningHalls.findAll({
-            where: {
-                hall: hallName
-            }
-        }).then(x => {
-            // todo check that element was found first, return default value if not
-            // console.log("id: " + x[0].id);
-            toReturn = x[0].url;
+exports.printDB = (model) => {
+    model.findAll()
+        .then(x => {
+            // console.log(x);
+            exports.toTable(x);
         }).catch(e => {
             console.log('Oops! something went wrong, : ', e);
         });
-    return toReturn;
 }
 
 // Scrapes the given url for a list of menu items
 // Note that mealtime must be either 'Breakfast' 'Lunch' or 'Dinner' (caps matter!)
-exports.scrapeUrl = async (menuUrl, mealtime) => {
-    console.log("Starting scrape"); // fixme remove
-
-    // todo check if in scrape db and save in scrape db
-
-    // console.log("URL is " + menuUrl); // fixme remove
-
-    let items = "FAILED"; // For if the scrape fails
+exports.scrapeUrl = async (hallName, mealTime, menuUrl) => {
+    // Check if already in scrape db
+    let items = await getCachedScrape(hallName, mealTime.toLowerCase(), exports.todayDate());
+    if (items === null || items.length > 0) {
+        return items;
+    }
 
     try {
+        console.log("\tStarting scrape");
         await axios.get(menuUrl).then(({ data }) => {
             const $ = cheerio.load(data); // Initialize cheerio
-            items = extractMenuItemsFromDiv($, mealtime); 
-            // console.log(items); // fixme remove
+            items = extractMenuItemsFromDiv($, mealTime); 
         });
+
+        // Then save in scrape db
+        saveScrapeToCache(hallName, mealTime.toLowerCase(), exports.todayDate(), items);
+
     } catch (e) {
         console.log(e);
         console.warn("ERROR: Unable to scrape!");
-    } // todo then save in scrapecache?
+    }
 
     return items;
 }
@@ -130,28 +103,24 @@ exports.createEmbedMessage = (data, menuUrl, mealtime, diningHall) => {
 }
 
 // Gets an embed message for the given hall and meal
-exports.makeEmbedMessage = async (hallName, mealTime) => {
-    console.log(mealTime) // fixme remove
-    let url = await exports.getHallUrl(hallName);
-    let data = await exports.scrapeUrl(url, mealTime);
-    // console.log("DATA IS ", data) // fixme remove
+exports.buildEmbedMessage = async (hallName, mealTime) => {
+    console.log("\t" + mealTime) // fixme remove
+    let url = await getHallUrl(hallName);
+    let data = await exports.scrapeUrl(hallName, mealTime, url);
     if (data.length == 0) { return null; }
     let embed = await exports.createEmbedMessage(data, url, mealTime, hallName);
-    // console.log(embed) // fixme remove
     return embed;
 }
 
 // Get all 3 menus for a dining hall
-exports.getAllMenuEmbedMessages = async (hallName) => {
+exports.buildAllMenuEmbedMessages = async (hallName) => {
     let embeds = [];
 
     let mealTimes = ["Breakfast", "Lunch", "Dinner"];
     for (const mealTime of mealTimes) {
-        let embed = await exports.makeEmbedMessage(hallName, mealTime)
+        let embed = await exports.buildEmbedMessage(hallName, mealTime)
         if (embed) { embeds.push(embed); }
     }
-
-    // console.log("here", embeds);
 
     return embeds;
 }
@@ -159,17 +128,14 @@ exports.getAllMenuEmbedMessages = async (hallName) => {
 // Sends all 3 embed messages, if menus are available
 exports.sendAllMenuEmbedMessages = async (interaction, hallName) => {
     let embeds = [];
-    embeds = await exports.getAllMenuEmbedMessages(hallName); 
-
-    console.log("EMBEDS LENGTH: " + embeds.length) // fixme remove
+    embeds = await exports.buildAllMenuEmbedMessages(hallName); 
+    // console.log("EMBEDS LENGTH: " + embeds.length) // fixme remove
 
     if (embeds.length == 0) {
         console.log("No menu items found");
         await interaction.editReply("Error: No menus found");
         return 0;
     }
-
-    // console.log("there", embeds); // fixme remove
 
     for (let i = 0; i < embeds.length; i++) {
         await interaction.followUp({ embeds: [embeds[i]] });

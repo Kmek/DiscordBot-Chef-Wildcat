@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const { sequelizeInstance } = require('../util/database.js');
-const { DiningHalls } = require('./dininghalls.js');
+// const { todayDate } = require('../util/db-helpers.js');
+const { DiningHalls, diningHallToId } = require('./dininghalls.js');
 
 const ScrapeCache = sequelizeInstance.define('ScrapeCache', {
     id: {
@@ -35,8 +36,52 @@ const ScrapeCache = sequelizeInstance.define('ScrapeCache', {
 ScrapeCache.belongsTo(DiningHalls); // DiningHallId
 
 module.exports = {
-    ScrapeCache: ScrapeCache
+    ScrapeCache: ScrapeCache,
 };
 
-//  idea: could put db specific functions in these exports
+// Check if there is a saved scrape in the db
+module.exports.getCachedScrape = async (hallName, mealTime, date) => {
+    console.log("\t\tChecking scrapeCache");
+    // Check if hallName and date have an entry
+    const foundCache = await ScrapeCache.findOne({ where: {
+            hall: hallName,
+            date: date
+        }
+    });
 
+    if (foundCache && foundCache[mealTime]) {
+        console.log("\t\tUsing cached data");
+        return foundCache[mealTime];
+    } else {
+        return []; // Empty array to show no row found
+    }
+}
+
+// Save the data to the scrapeCache
+module.exports.saveScrapeToCache = async (hallName, mealTime, date, data) => {
+    console.log("\t\tSaving cache to scrapeCache");
+    // Make object to create/update
+    let cache = {
+        hall: hallName,
+        date: date,
+        DiningHallId: await diningHallToId(hallName)
+    }
+    cache[mealTime.toLowerCase()] = data; 
+
+    // Check if hallName and date already have an entry
+    const foundCache = await ScrapeCache.findOne({ where: {
+            hall: hallName,
+            date: date
+        }
+    });
+
+    if (!foundCache) {
+        // If no row is found, then create it
+        await ScrapeCache.create(cache);
+    } else {
+        // If found a row, update it
+        await ScrapeCache.update(cache, {where: {
+            id: foundCache.id
+        }});
+    }
+}

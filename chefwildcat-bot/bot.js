@@ -21,8 +21,8 @@ for (const f of commandFiles) {
 }
 
 const { ScrapeCache } = require('./models/scrapecache.js');
-const { initializeDiningHalls } = require("./models/dininghalls");
-const { diningHallToId, todayDate, toTable } = require('./util/db-helpers.js');
+const { initializeDiningHalls, diningHallToId } = require("./models/dininghalls");
+const { todayDate, toTable } = require('./util/db-helpers.js');
 
 
 // Shows when bot is ready to go
@@ -43,22 +43,22 @@ client.on("ready", async () => {
         process.exit();
     }
 
-    // fixme testing
-    await ScrapeCache.create({
-        date: todayDate(),
-        hall: "hoco",
-        lunch: "asdfghj2",
-        DiningHallId: await diningHallToId("hoco")
-    });
+    // // fixme testing
+    // await ScrapeCache.create({
+    //     date: todayDate(),
+    //     hall: "hoco",
+    //     lunch: "asdfghj2",
+    //     DiningHallId: await diningHallToId("hoco")
+    // });
 
-    // fixme testing
-    ScrapeCache.findAll()
-        .then(x => {
-            // console.log(x);
-            toTable(x);
-        }).catch(e => {
-            console.log('Oops! something went wrong, : ', e);
-        });
+    // // fixme testing
+    // ScrapeCache.findAll()
+    //     .then(x => {
+    //         // console.log(x);
+    //         toTable(x);
+    //     }).catch(e => {
+    //         console.log('Oops! something went wrong, : ', e);
+    //     });
 
     
 

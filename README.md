@@ -71,7 +71,7 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
 <!-- todo -->
 
 <!-- 
-- breakfast, lunch, dinner (by subscriptions, or by all dining halls?)
+- breakfast, lunch, dinner (by all dining halls?)
 - search for a menu items
 - favorite, removefavorite
 - dislike, removedislike
