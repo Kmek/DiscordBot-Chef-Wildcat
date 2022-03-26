@@ -50,15 +50,27 @@ The following commands are implemented in this bot:
 #### `/ping`
 A simple ping-pong command for testing if the bot is running.
 
+#### `/philly`
+Displays the given menus for the day for Philbrook dining hall.
+
+#### `/hoco`
+Displays the given menus for the day for Holloway Commons dining hall.
+
+#### `/stillings`
+Displays the given menus for the day for Stillings dining hall.
+
 #### `/test`
-A command for 
+A command for testing
 
 #### `/halltoggle`
+Toggles the daily subscription for a given hall in a given channel or direct message.
+<!-- todo -->
 
 #### `/refresh`
+Refreshes the subscribed menus for the subscriptions in the given channel or direct message.
+<!-- todo -->
 
 <!-- 
-- philly, hoco, stillings (show all 3 menus)
 - breakfast, lunch, dinner (by subscriptions, or by all dining halls?)
 - search for a menu items
 - favorite, removefavorite

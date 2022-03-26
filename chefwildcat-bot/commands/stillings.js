@@ -4,12 +4,12 @@ const { sendAllMenuEmbedMessages } = require('../util/db-helpers.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('philly')
-        .setDescription('Print the current menus from Philbrook dining hall'),
+        .setName('stillings')
+        .setDescription('Print the current menus from Stillings dining hall'),
     async execute(interaction) {
         // Get 15 minutes for the message
         await interaction.deferReply();
 
-        sendAllMenuEmbedMessages(interaction, "philly");
+        sendAllMenuEmbedMessages(interaction, "stillings");
     }
 };

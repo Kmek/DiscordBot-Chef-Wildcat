@@ -21,7 +21,7 @@ for (const f of commandFiles) {
 }
 
 const { ScrapeCache } = require('./models/scrapecache.js');
-const { DiningHalls, initializeDiningHalls } = require("./models/dininghalls");
+const { initializeDiningHalls } = require("./models/dininghalls");
 const { diningHallToId, todayDate, toTable } = require('./util/db-helpers.js');
 
 
@@ -98,7 +98,7 @@ client.on("ready", async () => {
 client.on('interactionCreate', async interaction => {
     // Get command from saved commands, if it exists
     if (!interaction.isCommand()) return;
-    console.log(`Interaction "${interaction.commandName}" created!`);
+    console.log(`\nInteraction "${interaction.commandName}" created!`);
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
