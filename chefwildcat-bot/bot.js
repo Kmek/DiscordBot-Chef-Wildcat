@@ -6,6 +6,7 @@ const config = require("./config.json");
 const fs = require('fs');
 const { Client, Intents, Collection } = require('discord.js');
 const { sequelizeInstance } = require('./util/database.js');
+const { initializeDiningHalls } = require("./models/dininghalls");
 
 // Make client
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, 
@@ -19,11 +20,6 @@ for (const f of commandFiles) {
     client.commands.set(command.data.name, command);
     console.log("\tfound command " + command.data.name);
 }
-
-const { ScrapeCache } = require('./models/scrapecache.js');
-const { initializeDiningHalls, diningHallToId } = require("./models/dininghalls");
-const { todayDate, toTable } = require('./util/db-helpers.js');
-
 
 // Shows when bot is ready to go
 client.on("ready", async () => {
@@ -41,39 +37,7 @@ client.on("ready", async () => {
         console.log(e);
         console.log("ERROR: unable to connect to db!");
         process.exit();
-    }
-
-    // // fixme testing
-    // await ScrapeCache.create({
-    //     date: todayDate(),
-    //     hall: "hoco",
-    //     lunch: "asdfghj2",
-    //     DiningHallId: await diningHallToId("hoco")
-    // });
-
-    // // fixme testing
-    // ScrapeCache.findAll()
-    //     .then(x => {
-    //         // console.log(x);
-    //         toTable(x);
-    //     }).catch(e => {
-    //         console.log('Oops! something went wrong, : ', e);
-    //     });
-
-    
-
-    // console.log(sequelizeInstance.models);
-
-    // ScrapeCache.findAll({
-    //     where: {
-    //         mealtime: "lunch"
-    //     }
-    // }).then(x => {
-    //     console.log(x);
-    // }).catch(e => {
-    //     console.log('Oops! something went wrong, : ', e);
-    // })
-        
+    }   
 });
 
 // // Dynamic parsing of DMed commands

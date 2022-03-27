@@ -42,6 +42,15 @@ exports.printDB = (model) => {
         });
 }
 
+// question needed?
+// function toYMD(date) {
+//     let formatted = "" + date.getFullYear();
+//     formatted += "-" + (date.getMonth() + 1);
+//     formatted += "-" + (date.getDay() + 1);
+//     console.log(date," to ", formatted);
+//     return formatted;
+// }
+
 // Scrapes the given url for a list of menu items
 // Note that mealtime must be either 'Breakfast' 'Lunch' or 'Dinner' (caps matter!)
 exports.scrapeUrl = async (hallName, mealTime, menuUrl) => {
@@ -52,7 +61,7 @@ exports.scrapeUrl = async (hallName, mealTime, menuUrl) => {
     }
 
     try {
-        console.log("\tStarting scrape");
+        console.log("\t\tStarting scrape");
         await axios.get(menuUrl).then(({ data }) => {
             const $ = cheerio.load(data); // Initialize cheerio
             items = extractMenuItemsFromDiv($, mealTime); 
@@ -104,7 +113,7 @@ exports.createEmbedMessage = (data, menuUrl, mealtime, diningHall) => {
 
 // Gets an embed message for the given hall and meal
 exports.buildEmbedMessage = async (hallName, mealTime) => {
-    console.log("\t" + mealTime) // fixme remove
+    console.log("\t" + mealTime);
     let url = await getHallUrl(hallName);
     let data = await exports.scrapeUrl(hallName, mealTime, url);
     if (data.length == 0) { return null; }
@@ -125,14 +134,26 @@ exports.buildAllMenuEmbedMessages = async (hallName) => {
     return embeds;
 }
 
-// Sends all 3 embed messages, if menus are available
-exports.sendAllMenuEmbedMessages = async (interaction, hallName) => {
+// Get all menus for the given mealtime
+exports.buildAllMealEmbedMessages = async (mealTime) => {
     let embeds = [];
-    embeds = await exports.buildAllMenuEmbedMessages(hallName); 
-    // console.log("EMBEDS LENGTH: " + embeds.length) // fixme remove
+
+    let halls = ["philly", "hoco", "stillings"];
+    for (const hall of halls) {
+        let embed = await exports.buildEmbedMessage(hall, mealTime);
+        if (embed) { embeds.push(embed) }
+    }
+
+    return embeds;
+} 
+// idea combine this and the above into one condensed function
+
+// Sends all of the given embedded messages
+exports.sendAllEmbedMessages = async (interaction, embeds) => {
+    // embeds = await exports.buildAllMealEmbedMessages(mealTime);
 
     if (embeds.length == 0) {
-        console.log("No menu items found");
+        console.log("\tNo menu items found");
         await interaction.editReply("Error: No menus found");
         return 0;
     }
@@ -141,12 +162,3 @@ exports.sendAllMenuEmbedMessages = async (interaction, hallName) => {
         await interaction.followUp({ embeds: [embeds[i]] });
     }
 }
-
-// question needed?
-// function toYMD(date) {
-//     let formatted = "" + date.getFullYear();
-//     formatted += "-" + (date.getMonth() + 1);
-//     formatted += "-" + (date.getDay() + 1);
-//     console.log(date," to ", formatted);
-//     return formatted;
-// }

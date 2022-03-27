@@ -1,6 +1,6 @@
 // HoCo menu command
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { sendAllMenuEmbedMessages } = require('../util/db-helpers.js');
+const { sendAllEmbedMessages, buildAllMenuEmbedMessages } = require('../util/db-helpers.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,6 +10,6 @@ module.exports = {
         // Get 15 minutes for the message
         await interaction.deferReply();
 
-        sendAllMenuEmbedMessages(interaction, "hoco");
+        sendAllEmbedMessages(interaction, await buildAllMenuEmbedMessages("hoco"));
     }
 };

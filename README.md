@@ -18,9 +18,6 @@ Can be installed with `npm install <package>`
  - express -->
  <!-- - fs? -->
 
-### PostgreSQL
-`pgAdmin` can be downloaded from [postgreSQL](https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.4/windows/).
-
 ### `config.json` Format
 Create a `config.json` file with the following format.
 ```json
@@ -35,14 +32,14 @@ Create a `config.json` file with the following format.
 ### Slash commands
 These slash commands can be uploaded to a testing server using the `deploy-commands.js` script, given that the server `guildId` is saved in the config file and that the bot has been invited to the server with the slash command permission. Run using `node deploy-commands.js <flag>` with up to one flag at a time. The commands uploaded to a test server will all have "dev" added to the end of their descriptions, to distinguish between previously uploaded global commands. 
 
-### Docker
-This application is containerized, so `Docker` must be started before running `docker-compose up -d`. The application runs in a `NodeJS` container named `chefwildcat`, and the `Postgres` database is in a container named `pgdb`. For testing, the `docker-compose up --build` can be used to follow the outputs of the containers.
-
 ##### Flags
 - None: Default, uploads commands to a guild for testing
 - `-g`: Uploads commands globally (may take an hour to reflect on Discord)
 - `-ct`: Clears testing commands from the test guild (does not remove global commands)
 - `-cg`: Clears global commands (may take an hour)
+
+### Docker
+This application is containerized, so `Docker` must be started before running `docker-compose up -d`. The application runs in a `NodeJS` container named `chefwildcat`, and the `Postgres` database is in a container named `pgdb`. For testing, the `docker-compose up --build` can be used to follow the outputs of the containers.
 
 ## Commands
 The following commands are implemented in this bot:
@@ -59,6 +56,15 @@ Displays the given menus for the day for Holloway Commons dining hall.
 #### `/stillings`
 Displays the given menus for the day for Stillings dining hall.
 
+#### `/breakfast`
+Displays the given menus for the day for breakfast.
+
+#### `/lunch`
+Displays the given menus for the day for lunch.
+
+#### `/dinner`
+Displays the given menus for the day for dinner.
+
 #### `/test`
 A command for testing
 
@@ -71,7 +77,6 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
 <!-- todo -->
 
 <!-- 
-- breakfast, lunch, dinner (by all dining halls?)
 - search for a menu items
 - favorite, removefavorite
 - dislike, removedislike
