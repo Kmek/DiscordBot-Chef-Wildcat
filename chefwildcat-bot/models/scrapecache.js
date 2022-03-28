@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const { sequelizeInstance } = require('../util/database.js');
-// const { todayDate } = require('../util/db-helpers.js');
 const { DiningHalls, diningHallToId } = require('./dininghalls.js');
 
 const ScrapeCache = sequelizeInstance.define('ScrapeCache', {

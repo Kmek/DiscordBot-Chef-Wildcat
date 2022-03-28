@@ -1,5 +1,7 @@
 // HoCo menu command
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { DMChannel } = require('discord.js');
+const { getFavorites } = require('../models/dmsubs.js');
 const { sendAllEmbedMessages, buildAllMenuEmbedMessages } = require('../util/db-helpers.js');
 
 module.exports = {
@@ -10,6 +12,11 @@ module.exports = {
         // Get 15 minutes for the message
         await interaction.deferReply();
 
-        sendAllEmbedMessages(interaction, await buildAllMenuEmbedMessages("hoco"));
+        let favorites = [];
+        if (interaction.channel instanceof DMChannel) {
+            favorites = await getFavorites(interaction.channel.id);
+        }
+
+        sendAllEmbedMessages(interaction, await buildAllMenuEmbedMessages("hoco", favoites));
     }
 };

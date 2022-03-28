@@ -79,9 +79,9 @@ exports.scrapeUrl = async (hallName, mealTime, menuUrl) => {
 }
 
 // Builds a DiscordJS embed message with each menu section being its own embed field
-exports.createEmbedMessage = (data, menuUrl, mealtime, diningHall) => {
+exports.createEmbedMessage = (data, menuUrl, mealtime, diningHall, favorites) => {
     let embed = new MessageEmbed()
-        .setColor('#0099ff')
+        .setColor('#093e9e')
         .setTitle(mealtime + ' Menu')
         .setURL(menuUrl)
         .setAuthor({ name: diningHall, iconURL: 'https://i.imgur.com/0ZodGCo.png', url: menuUrl })
@@ -99,8 +99,10 @@ exports.createEmbedMessage = (data, menuUrl, mealtime, diningHall) => {
             list = "";
         } else {
             // console.log("\t" + i + " " + data[i])
-            list += "- " + data[i] + "\n";
-            // todo somehow mark favorite items with a star? or somewhere else?
+            if (favorites.includes(data[i])) {
+                list += ":star:";
+            } else { list += "- "; }
+            list += data[i] + "\n";
         }
     }
     embed.addField(title, list, true);
@@ -112,22 +114,22 @@ exports.createEmbedMessage = (data, menuUrl, mealtime, diningHall) => {
 }
 
 // Gets an embed message for the given hall and meal
-exports.buildEmbedMessage = async (hallName, mealTime) => {
+exports.buildEmbedMessage = async (hallName, mealTime, favorites) => {
     console.log("\t" + mealTime);
     let url = await getHallUrl(hallName);
     let data = await exports.scrapeUrl(hallName, mealTime, url);
     if (data.length == 0) { return null; }
-    let embed = await exports.createEmbedMessage(data, url, mealTime, hallName);
+    let embed = await exports.createEmbedMessage(data, url, mealTime, hallName, favorites);
     return embed;
 }
 
 // Get all 3 menus for a dining hall
-exports.buildAllMenuEmbedMessages = async (hallName) => {
+exports.buildAllMenuEmbedMessages = async (hallName, favorites) => {
     let embeds = [];
 
     let mealTimes = ["Breakfast", "Lunch", "Dinner"];
     for (const mealTime of mealTimes) {
-        let embed = await exports.buildEmbedMessage(hallName, mealTime)
+        let embed = await exports.buildEmbedMessage(hallName, mealTime, favorites)
         if (embed) { embeds.push(embed); }
     }
 
@@ -135,12 +137,12 @@ exports.buildAllMenuEmbedMessages = async (hallName) => {
 }
 
 // Get all menus for the given mealtime
-exports.buildAllMealEmbedMessages = async (mealTime) => {
+exports.buildAllMealEmbedMessages = async (mealTime, favorites) => {
     let embeds = [];
 
     let halls = ["philly", "hoco", "stillings"];
     for (const hall of halls) {
-        let embed = await exports.buildEmbedMessage(hall, mealTime);
+        let embed = await exports.buildEmbedMessage(hall, mealTime, favorites);
         if (embed) { embeds.push(embed) }
     }
 

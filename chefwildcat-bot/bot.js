@@ -29,8 +29,8 @@ client.on("ready", async () => {
     // Connect to PostgreSQL
     try {
         // await sequelizeInstance.sync();
-        await sequelizeInstance.sync({ force: true }); // For recreating tables
-        // await sequelizeInstance.sync({ alter: true }) // For updating models with saving rows as best as possible
+        // await sequelizeInstance.sync({ force: true }); // For recreating tables
+        await sequelizeInstance.sync({ alter: true }) // For updating models with saving rows as best as possible
         await initializeDiningHalls();
         console.log("Connection to postgres complete!\n");
     } catch (e) {

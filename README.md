@@ -65,6 +65,15 @@ Displays the given menus for the day for lunch.
 #### `/dinner`
 Displays the given menus for the day for dinner.
 
+#### `/favorite`
+Marks a menu item as a favorite. Only available in DMs.
+
+#### `/unfavorite`
+Unmarks a menu item as a favorite. Only available in DMs.
+
+#### `/favorites`
+Displays the favorited items list. Only available in DMs.
+
 #### `/test`
 A command for testing
 
