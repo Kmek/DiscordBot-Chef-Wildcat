@@ -1,7 +1,6 @@
-// Subscription toggle command
+// HallToggle command
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { DMChannel } = require('discord.js');
-const { adminRole } = require("../config.json");
+const { toggleHallSubscription, hasServerRole } = require('../models/subs');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,33 +12,24 @@ module.exports = {
                 .setRequired(true)
                 .addChoice('Philbrook', 'philly')
                 .addChoice('Holloway Commons', 'hoco')
-                .addChoice('Stillings', 'stillings')
-                .addChoice('All', 'All')),
+                .addChoice('Stillings', 'stillings')),
     async execute(interaction) {
-        let hall = interaction.options.getString("hall");
+        // Get 15 minutes for the message
+        await interaction.deferReply();
 
-        let channelId = interaction.channel.id;
-        console.log("Channel: " + channelId);
+        if (!hasServerRole(interaction)) return;
 
-        if (interaction.channel instanceof DMChannel) {
-            console.log("IN A DM");
-            // todo check dmsubs table
-        } else {
-            let guildId = interaction.guild.id
-            console.log("Guild: " + guildId);
+        let hallName = interaction.options.getString("hall");
 
-            // Check for role
-            if (interaction.member.roles.cache.find(r => r.name === adminRole)) {
-                console.log("permission granted");
-                // todo check serversubs table
+        try {
+            // Toggle hall subscription
+            if (await toggleHallSubscription(interaction.guild ? interaction.guild.id : null, interaction.channel.id, hallName)) {
+                interaction.followUp(":white_check_mark: Subscribed to " + hallName);
             } else {
-                interaction.reply({content: "error wrong role", ephemeral: true });
-                return;
+                interaction.followUp(":x: Unsubscribed to " + hallName);
             }
+        } catch (e) {
+            interaction.followUp("Error: Unable to toggle subscription");
         }
-
-        // todo store this somewhere?
-
-        await interaction.reply("Subscribed to " + hall);
     }
 };

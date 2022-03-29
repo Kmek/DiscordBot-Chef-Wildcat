@@ -1,8 +1,9 @@
 // Test command
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ScrapeCache } = require('../models/scrapecache.js');
-const { DmSubs } = require('../models/dmsubs.js');
+const { DmInfo } = require('../models/dminfo.js');
 const { printDB } = require('../util/db-helpers.js');
+const { Subs } = require('../models/subs.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,7 +22,10 @@ module.exports = {
         // printDB(ScrapeCache);
         // await interaction.followUp("Printing scrapeCache");
 
-        printDB(DmSubs);
-        await interaction.followUp("Printing dmSubs");
+        // printDB(DmInfo);
+        // await interaction.followUp("Printing DmInfo");
+
+        printDB(Subs);
+        await interaction.followUp("Printing Subs");
     }
 };

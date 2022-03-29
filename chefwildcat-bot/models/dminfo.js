@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const Sequelize = require('sequelize');
 const { sequelizeInstance } = require('../util/database.js');
 
-const DmSubs = sequelizeInstance.define('DmSubs', {
+const DmInfo = sequelizeInstance.define('DmInfo', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -13,21 +13,6 @@ const DmSubs = sequelizeInstance.define('DmSubs', {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-    },
-    hoco: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-    },
-    philly: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-    },
-    stillings: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
     },
     favorites: {
         type: Sequelize.JSON,
@@ -40,13 +25,15 @@ const DmSubs = sequelizeInstance.define('DmSubs', {
 });
 
 module.exports = {
-    DmSubs: DmSubs
+    DmInfo: DmInfo
 };
+
+// ******************** Favorites ********************//
 
 // Get the list of favorites
 module.exports.getFavorites = async (channel) => {
     console.log("\t\tGetting favorites");
-    const row = await DmSubs.findOne({ where: {
+    const row = await DmInfo.findOne({ where: {
             channel: channel
         }
     });
@@ -69,7 +56,7 @@ module.exports.sendFavoritesEmbedMessage = async (interaction, channel) => {
 
     let embed = new MessageEmbed()
         .setColor('#093e9e')
-        .setTitle('Favorited Menu Items: ')
+        .setTitle('Favorited Menu Items for ' + interaction.user.username + ':')
         .setAuthor({ name: "ChefWildcat", iconURL: 'https://i.imgur.com/0ZodGCo.png' })
         .setDescription(favorites) 
         .setThumbnail("https://i.imgur.com/0ZodGCo.png")
@@ -82,7 +69,7 @@ module.exports.sendFavoritesEmbedMessage = async (interaction, channel) => {
 // Add a favorite to the list
 module.exports.addFavorite = async (channel, menuItem) => {
     // Check if hallName and date already have an entry
-    const found = await DmSubs.findOne({ where: {
+    const found = await DmInfo.findOne({ where: {
             channel: channel
         }
     });
@@ -90,7 +77,7 @@ module.exports.addFavorite = async (channel, menuItem) => {
     if (!found || !found.favorites) {
         console.log("\tCreating new row");
         // If no row is found, then create it
-        await DmSubs.create({
+        await DmInfo.create({
             channel: channel,
             favorites: [menuItem]
         });
@@ -99,9 +86,7 @@ module.exports.addFavorite = async (channel, menuItem) => {
         // If found a row, update it
         if (!found.favorites.includes(menuItem)) {
             found.favorites.push(menuItem);
-            await DmSubs.update({
-                favorites: found.favorites
-            }, {where: {
+            await DmInfo.update(found.dataValues, {where: {
                 id: found.id
             }});
             return true;
@@ -113,7 +98,7 @@ module.exports.addFavorite = async (channel, menuItem) => {
 // Remove a favorite from the list
 module.exports.removeFavorite = async (channel, menuItem) => {
     // Check if hallName and date already have an entry
-    const found = await DmSubs.findOne({ where: {
+    const found = await DmInfo.findOne({ where: {
             channel: channel
         }
     });
@@ -124,10 +109,7 @@ module.exports.removeFavorite = async (channel, menuItem) => {
         // If found a row, update it
         if (found.favorites.includes(menuItem)) {
             found.favorites = found.favorites.filter(x => x !== menuItem);
-            console.log(found.favorites);
-            await DmSubs.update({
-                favorites: found.favorites
-            }, {where: {
+            await DmInfo.update(found.dataValues, {where: {
                 id: found.id
             }});
             return true;

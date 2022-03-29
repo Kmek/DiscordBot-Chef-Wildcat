@@ -1,7 +1,7 @@
 // Favorites command
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { DMChannel } = require('discord.js');
-const { sendFavoritesEmbedMessage } = require('../models/dmsubs.js');
+const { sendFavoritesEmbedMessage } = require('../models/dminfo.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

@@ -49,16 +49,6 @@ async function initialize() {
         },
     });
     console.log("DiningHalls initialization complete!");
-
-    // fixme testing
-    DiningHalls.findAll()
-        .then(x => {
-            const { toTable } = require('../util/db-helpers.js');
-            toTable(x);
-            console.log("DONE PRINTING TABLE")
-        }).catch(e => {
-            console.log('Oops! something went wrong, : ', e);
-        });
 }
 
 module.exports = {

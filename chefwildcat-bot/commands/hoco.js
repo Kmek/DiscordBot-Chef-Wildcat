@@ -1,7 +1,7 @@
 // HoCo menu command
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { DMChannel } = require('discord.js');
-const { getFavorites } = require('../models/dmsubs.js');
+const { getFavorites } = require('../models/dminfo.js');
 const { sendAllEmbedMessages, buildAllMenuEmbedMessages } = require('../util/db-helpers.js');
 
 module.exports = {

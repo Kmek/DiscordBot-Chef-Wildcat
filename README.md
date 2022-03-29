@@ -28,6 +28,7 @@ Create a `config.json` file with the following format.
     "adminRole": "role name here, for running certain commands"
 }
 ```
+ <!-- todo add image url to config -->
 
 ### Slash commands
 These slash commands can be uploaded to a testing server using the `deploy-commands.js` script, given that the server `guildId` is saved in the config file and that the bot has been invited to the server with the slash command permission. Run using `node deploy-commands.js <flag>` with up to one flag at a time. The commands uploaded to a test server will all have "dev" added to the end of their descriptions, to distinguish between previously uploaded global commands. 
@@ -90,6 +91,7 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
 - favorite, removefavorite
 - dislike, removedislike
 - showsubs
+- help
  -->
 
  <!-- idea
@@ -113,3 +115,10 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
  is this faster/better than fetching from the db all the time?
  Should there be a diningHall object that is just returned from the db and passed around per interaction?
  -->
+
+ <!-- idea
+ Add another database to keep track of known menu items, 
+ for verifying favorites -->
+
+ <!-- idea
+ Direct console.log output to a channel on my testing server -->

@@ -24,6 +24,7 @@ for (const f of commandFiles) {
 // Shows when bot is ready to go
 client.on("ready", async () => {
     console.log("\n" + client.user.username);
+    client.user.setActivity("UNH Menus", {type: "WATCHING"}); 
     console.log("I am ready!\n");
 
     // Connect to PostgreSQL
