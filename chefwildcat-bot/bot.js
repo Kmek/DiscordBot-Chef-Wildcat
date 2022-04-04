@@ -38,7 +38,7 @@ client.on("ready", async () => {
         console.log(e);
         console.log("ERROR: unable to connect to db!");
         process.exit();
-    }   
+    }
 });
 
 // // Dynamic parsing of DMed commands

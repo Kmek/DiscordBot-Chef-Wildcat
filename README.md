@@ -80,7 +80,6 @@ A command for testing
 
 #### `/halltoggle`
 Toggles the daily subscription for a given hall in a given channel or direct message.
-<!-- todo -->
 
 #### `/refresh`
 Refreshes the subscribed menus for the subscriptions in the given channel or direct message.
@@ -88,7 +87,6 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
 
 <!-- 
 - search for a menu items
-- favorite, removefavorite
 - dislike, removedislike
 - showsubs
 - help

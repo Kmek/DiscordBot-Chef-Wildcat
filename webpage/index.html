@@ -2,14 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Stats Scripts</title>
-
-    <!-- Editable code textbox -->
-    <!-- <script src="./highlighting/code-input.min.js"></script>
-    <link rel="stylesheet" href="./highlighting/code-input.min.css">
-    <script src="./highlighting/prism.js"></script>
-    <link rel="stylesheet" href="./highlighting/prism.css">
-    <script>codeInput.registerTemplate("syntax-highlighted", codeInput.templates.prism(Prism));</script> -->
+    <title>Bot Stats</title>
 
     <!-- Styles -->
     <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
@@ -17,12 +10,11 @@
     <link rel="stylesheet" href="./styles/base.css">
     <link rel="stylesheet" href="./styles/sections.css"> -->
 
-    
 </head>
 <body>
     <div id="page">
         <div id="header">
-            <h1>Stats Scripts</h1>
+            <h1>Bot Stats</h1>
         </div>
 
         <div class="row">
@@ -42,15 +34,13 @@
         
 
     </div>
-    
-    <!-- <script type="text/javascript">
-        var exports = {};
-        var datasets = {};
-        var selectedSet = "";
-        // var loaded = false;
+
+    <script src="./scripts/fetch.js"></script>
+    <script>
+        getDiningHalls()
+            .then( data => {
+                console.log(data);
+            });
     </script>
-    <script type="module" src="./scripts/importFunctions.js"></script>
-    <script type="text/javascript" src="./scripts/importData.js"></script> -->
-    <script type="module" src="./scripts/db.js"></script>
 </body>
 </html>
