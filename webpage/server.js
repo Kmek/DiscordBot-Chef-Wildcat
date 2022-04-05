@@ -26,54 +26,54 @@ app.listen(port, host);
 console.log('Server started at http://localhost:' + port);
 
 // /******************** Sequelize -> PG Connection ********************/
-// // https://stackabuse.com/using-sequelize-orm-with-nodejs-and-express/
-// const { sequelizeInstance } = require('../chefwildcat-bot/util/database.js');
+// https://stackabuse.com/using-sequelize-orm-with-nodejs-and-express/
+const { sequelizeInstance } = require('../chefwildcat-bot/util/database.js');
 
-// sequelizeInstance
-//   .authenticate()
-//   .then(() => {
-//     console.log('Connection has been established successfully.');
-//   })
-//   .catch(err => {
-//     console.error('Unable to connect to the database:', err);
-//   });
+sequelizeInstance
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
-// // Connect to PostgreSQL
-// (async () => {
-//     try {
-//         // await sequelizeInstance.sync();
-//         // await sequelizeInstance.sync({ force: true }); // For recreating tables
-//         await sequelizeInstance.sync({ alter: true }) // For updating models with saving rows as best as possible
-//         console.log("Connection to postgres complete!\n");
-//     } catch (e) {
-//         console.log(e);
-//         console.log("ERROR: unable to connect to db!");
-//         process.exit();
-//     }
-// })();
+// Connect to PostgreSQL
+(async () => {
+    try {
+        // await sequelizeInstance.sync();
+        // await sequelizeInstance.sync({ force: true }); // For recreating tables
+        await sequelizeInstance.sync({ alter: true }) // For updating models with saving rows as best as possible
+        console.log("Connection to postgres complete!\n");
+    } catch (e) {
+        console.log(e);
+        console.log("ERROR: unable to connect to db!");
+        process.exit();
+    }
+})();
 
-// /******************** Endpoints ********************/
-// const { DiningHalls } = require('../chefwildcat-bot/models/dininghalls');
-// const { ScrapeCache } = require('../chefwildcat-bot/models/scrapecache');
-// const { Subs } = require('../chefwildcat-bot/models/subs');
-// const { DmInfo } = require('../chefwildcat-bot/models/dminfo');
+/******************** Endpoints ********************/
+const { DiningHalls } = require('../chefwildcat-bot/models/dininghalls');
+const { ScrapeCache } = require('../chefwildcat-bot/models/scrapecache');
+const { Subs } = require('../chefwildcat-bot/models/subs');
+const { DmInfo } = require('../chefwildcat-bot/models/dminfo');
 
-// app.get('/getDiningHalls', function(req, res) {
-//     console.log("Fetching /getDiningHalls");
-//     DiningHalls.findAll().then(notes => res.json(notes));
-// });
+app.get('/getDiningHalls', function(req, res) {
+    console.log("Fetching /getDiningHalls");
+    DiningHalls.findAll().then(notes => res.json(notes));
+});
 
-// app.get('/getScrapeCache', function(req, res) {
-//     console.log("Fetching /getScrapeCache");
-//     ScrapeCache.findAll().then(notes => res.json(notes));
-// });
+app.get('/getScrapeCache', function(req, res) {
+    console.log("Fetching /getScrapeCache");
+    ScrapeCache.findAll().then(notes => res.json(notes));
+});
 
-// app.get('/getSubs', function(req, res) {
-//     console.log("Fetching /getSubs");
-//     Subs.findAll().then(notes => res.json(notes));
-// });
+app.get('/getSubs', function(req, res) {
+    console.log("Fetching /getSubs");
+    Subs.findAll().then(notes => res.json(notes));
+});
 
-// app.get('/getDmInfo', function(req, res) {
-//     console.log("Fetching /getDmInfo");
-//     DmInfo.findAll().then(notes => res.json(notes));
-// });
+app.get('/getDmInfo', function(req, res) {
+    console.log("Fetching /getDmInfo");
+    DmInfo.findAll().then(notes => res.json(notes));
+});
