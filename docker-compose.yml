@@ -3,9 +3,10 @@ version: "3.3"
 services:
   chefwildcat-bot:
     container_name: chefwildcat
+    image: 'chefwildcat/chefwildcatbot'
     build:
       context: ./chefwildcat-bot/
-      dockerfile: ChefWildcat
+      dockerfile: Dockerfile
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
@@ -21,9 +22,10 @@ services:
       - pgdb
   webpage:
     container_name: webpage
+    image: 'chefwildcat/chefwildcatwebpage'
     build:
       context: ./
-      dockerfile: ./webpage/WebPage
+      dockerfile: ./webpage/Dockerfile
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
