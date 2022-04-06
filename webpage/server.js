@@ -58,6 +58,13 @@ sequelizeInstance
 
 /******************** Endpoints ********************/
 
+// Need to import models to access them
+const fs = require('fs');
+const modelFiles = fs.readdirSync('./chefwildcat-bot/models').filter(file => file.endsWith('.js'));
+for (const f of modelFiles) {
+    const dbTable = require("../chefwildcat-bot/models/" + f);
+}
+
 // Gets a list of the tables in the db (aka the models)
 app.get('/getModels', function(req, res) {
     console.log("Fetching /getModels");
@@ -67,6 +74,7 @@ app.get('/getModels', function(req, res) {
 // Gets the corresponding db table in the query
 app.get('/getTable', function(req, res) {
     console.log("Fetching /getTable for " + req.query.table);
+    // todo check model exists, if not then return empty
     sequelizeInstance.models[req.query.table].findAll().then(x => res.json(x));
 });
 
