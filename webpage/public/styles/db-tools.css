@@ -1,0 +1,16 @@
+/* db.html Section Styles */
+
+/********** tablesDiv **********/
+#tablesDiv {
+    display: grid;
+    grid-template-columns: repeat(4, calc((100% - 30px) / 4));
+    grid-auto-rows: max-content;
+    grid-auto-flow: row;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+#tablesDiv > button {
+    height: 30px;
+    width: 100%;
+}

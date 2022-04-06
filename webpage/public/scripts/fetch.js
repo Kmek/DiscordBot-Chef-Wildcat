@@ -41,22 +41,17 @@ async function basicFetch(url) {
 }
 
 //******************** Endpoint Functions ********************//
-// Gets the Dining Halls
-async function getDiningHalls() {
-    return basicFetch("/getDiningHalls");
+
+// Gets the table names (aka the models)
+async function getModels() {
+    return basicFetch("/getModels");
 }
 
-// Gets the ScrapeCache
-async function getScrapeCache() {
-    return basicFetch("/getScrapeCache");
-}
-
-// Gets the Subscriptions
-async function getSubs() {
-    return basicFetch("/getSubs");
-}
-
-// Gets the Dm Info
-async function getDmInfo() {
-    return basicFetch("/getDmInfo");
+// Gets the given table
+async function getTable(tableName) {
+    // await getModels();
+    // if (models.includes(tableName)) {
+    return basicFetch("/getTable?" +  new URLSearchParams({
+        table: tableName
+    }));
 }

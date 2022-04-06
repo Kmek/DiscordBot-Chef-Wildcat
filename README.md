@@ -40,7 +40,7 @@ These slash commands can be uploaded to a testing server using the `deploy-comma
 - `-cg`: Clears global commands (may take an hour)
 
 ### Docker
-This application is containerized, so `Docker` must be started before running `docker-compose up -d`. The application runs in a `NodeJS` container named `chefwildcat`, and the `Postgres` database is in a container named `pgdb`. For testing, the `docker-compose up --build` can be used to follow the outputs of the containers.
+This application is containerized, so `Docker` must be started before running `docker-compose up -d`. The application runs in a `NodeJS` container named `chefwildcat`, and the `Postgres` database is in a container named `pgdb`. For testing, the `docker-compose up --build` can be used to follow the outputs of the containers. Additionally, `docker-compose up -d --no-deps --build <service>` can be used to rebuild and restart a single service rather than building and restarting all of the containers in the docker-compose file.
 
 ## Commands
 The following commands are implemented in this bot:

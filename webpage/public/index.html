@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bot Stats</title>
+    <link rel="icon" href="https://www.freeiconspng.com/thumbs/chef-hat-png/chef-hat-png-10.png" type="image/gif">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./styles/page.css">
+    <link rel="stylesheet" href="./styles/base.css">
+    <link rel="stylesheet" href="./styles/bot-stats.css">
+
+</head>
+<body>
+    <div id="page">
+        <div id="header">
+            <img src="./media/profile.png"/>
+            <h1>Chef Wildcat Bot Stats</h1>
+            <img src="./media/profile.png"/>
+            <h3>Made by Kate Keefe</h3>
+        </div>
+
+        <div class="row" style="grid-column: 1;"><div>
+            <h2>Database Tables:</h2>
+            <p>These are the Postgres Database tables supporting Chef Wildcat.</p>
+            <ul id="tablesList"></ul>
+        </div></div>
+
+        <!-- idea add a row next to this that has links to database viewer -->
+        <div class="row" style="grid-column: 2;"><div>
+            <h2>Database Tool:</h2>
+            <p>This tool can be used to view the database tables.</p>
+            <a id="DbToolsButton" href="./DbTool">DB Tool</a>
+        </div></div>
+
+        <div class="row"><div>
+            <h2>Dining Halls:</h2>
+            <p>These are the dining halls that Chef Wildcat supports.</p>
+            <!-- todo -->
+        </div></div>
+
+        <div class="row"><div>
+            <h2>Servers:</h2>
+            <p>These are the servers that Chef Wildcat is in.</p>
+            <!-- todo -->
+        </div></div>
+
+        <div class="row"><div>
+            <h2>Channels:</h2>
+            <p>These are the channels that Chef Wildcat is in.</p>
+            <!-- todo -->
+        </div></div>
+
+        <div class="row"><div>
+            <h2>Users:</h2>
+            <p>These are the users that Chef Wildcat has talked to.</p>
+            <!-- todo -->
+        </div></div>
+
+        
+
+    </div>
+
+    <script src="./scripts/fetch.js"></script>
+    <script src="./scripts/bot-stats.js"></script>
+    <!-- <script>
+        getModels()
+            .then( data => {
+                console.log(data);
+            });
+    </script> -->
+</body>
+</html>

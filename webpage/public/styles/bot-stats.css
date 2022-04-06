@@ -1,0 +1,35 @@
+/* index.html Section Styles */
+
+/********** DbToolsButton **********/
+#DbToolsButton:link, #DbToolsButton:visited {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    margin-left: calc(50% - 50px);
+    height: 28px;
+    padding-top: 12px;
+
+    border: 2px solid var(--accent);
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    font-family: monospace;
+    font-size: 14px;
+
+    transition: background-color 0.8s;
+    animation: bouncy 5s infinite linear;
+}
+#DbToolsButton:hover {
+    background-color: #b094bb;
+}
+
+@keyframes bouncy {
+    0%{top:0em}
+    40%{top:0em}
+    43%{top:-0.9em}
+    46%{top:0em}
+    48%{top:-0.4em}
+    50%{top:0em}
+    100%{top:0em;}
+}

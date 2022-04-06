@@ -18,7 +18,11 @@ app.use(express.static(__dirname + '/public'));
 
 // Use index.html as the first page
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '/index.html'));
+    res.sendFile(path.join(__dirname, '/public/index.html'));
+});
+// Give the DB tool its own page
+app.get('/DbTool', function(req, res) {
+    res.sendFile(path.join(__dirname, '/public/db.html'));
 });
 
 // Start
@@ -53,27 +57,25 @@ sequelizeInstance
 })();
 
 /******************** Endpoints ********************/
-const { DiningHalls } = require('../chefwildcat-bot/models/dininghalls');
-const { ScrapeCache } = require('../chefwildcat-bot/models/scrapecache');
-const { Subs } = require('../chefwildcat-bot/models/subs');
-const { DmInfo } = require('../chefwildcat-bot/models/dminfo');
 
-app.get('/getDiningHalls', function(req, res) {
-    console.log("Fetching /getDiningHalls");
-    DiningHalls.findAll().then(notes => res.json(notes));
+// Gets a list of the tables in the db (aka the models)
+app.get('/getModels', function(req, res) {
+    console.log("Fetching /getModels");
+    res.send(JSON.stringify(Object.getOwnPropertyNames(sequelizeInstance.models))); 
 });
 
-app.get('/getScrapeCache', function(req, res) {
-    console.log("Fetching /getScrapeCache");
-    ScrapeCache.findAll().then(notes => res.json(notes));
+// Gets the corresponding db table in the query
+app.get('/getTable', function(req, res) {
+    console.log("Fetching /getTable for " + req.query.table);
+    sequelizeInstance.models[req.query.table].findAll().then(x => res.json(x));
 });
 
-app.get('/getSubs', function(req, res) {
-    console.log("Fetching /getSubs");
-    Subs.findAll().then(notes => res.json(notes));
-});
 
-app.get('/getDmInfo', function(req, res) {
-    console.log("Fetching /getDmInfo");
-    DmInfo.findAll().then(notes => res.json(notes));
-});
+
+
+
+
+// todo add username, channel name, and server name to db tables
+
+// todo add db for logging when menus have been sent for the day
+// In case the bot restarts, don't want to send menus twice
