@@ -1,6 +1,6 @@
 // Subscriptions command
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getSubscriptionsServer, sendSubscriptionsEmbedMessage, hasServerRole } = require('../models/subs.js');
+const { sendSubscriptionsEmbedMessage, hasServerRole } = require('../models/subs.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

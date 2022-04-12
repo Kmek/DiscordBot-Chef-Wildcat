@@ -10,7 +10,11 @@ const Subs = sequelizeInstance.define('Subs', {
         allowNull: false,
         primaryKey: true,
     },
-    guild: {
+    guild: { // Null if row is for a DM
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    guildname: {
         type: Sequelize.STRING,
         allowNull: true,
     },
@@ -18,6 +22,10 @@ const Subs = sequelizeInstance.define('Subs', {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
+    },
+    channelname: { // Or username if row is DM
+        type: Sequelize.STRING,
+        allowNull: false,
     },
     hoco: {
         type: Sequelize.BOOLEAN,
@@ -62,7 +70,7 @@ module.exports.hasServerRole = (interaction) => {
 
 // toggles the given hall for the given channel in a server
 // Note: returns new value of the dining hall subscription
-module.exports.toggleHallSubscription = async (guild, channel, hallName) => {
+module.exports.toggleHallSubscription = async (guild, guildName, channel, channelName, hallName) => {
     // Check if there's already an entry
     const found = await Subs.findOne({ where: {
             guild: guild,
@@ -73,7 +81,12 @@ module.exports.toggleHallSubscription = async (guild, channel, hallName) => {
     if (!found) {
         // If no row is found, then create it
         console.log("\tCreating new row");
-        let row = { guild: guild, channel: channel }
+        let row = { 
+            guild: guild,
+            guildname: guildName,
+            channel: channel,
+            channelname: channelName
+        }
         row[hallName] = true;
         await Subs.create(row);
         return true;
@@ -89,7 +102,7 @@ module.exports.toggleHallSubscription = async (guild, channel, hallName) => {
 }
 
 // Gets a list of subscriptions for the given channel in a server
-module.exports.getSubscriptionsServer = async (guild, channel) => {
+module.exports.getSubscriptions = async (guild, channel) => {
     // Check if there's already an entry
     const found = await Subs.findOne({ where: {
             guild: guild,
@@ -112,7 +125,7 @@ module.exports.getSubscriptionsServer = async (guild, channel) => {
 
 // Sends the list of subscriptions in a nicely formatted embed message
 module.exports.sendSubscriptionsEmbedMessage = async (interaction) => {
-    let subs = await module.exports.getSubscriptionsServer(interaction.guild ? interaction.guild.id : null, interaction.channel.id);
+    let subs = await module.exports.getSubscriptions(interaction.guild ? interaction.guild.id : null, /*interaction.guild ? interaction.guild.name : null,*/ interaction.channel.id);
 
     let embed = new MessageEmbed()
         .setColor('#093e9e')

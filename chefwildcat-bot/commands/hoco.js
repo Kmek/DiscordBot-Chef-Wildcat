@@ -17,6 +17,6 @@ module.exports = {
             favorites = await getFavorites(interaction.channel.id);
         }
 
-        sendAllEmbedMessages(interaction, await buildAllMenuEmbedMessages("hoco", favoites));
+        sendAllEmbedMessages(interaction, await buildAllMenuEmbedMessages("hoco", favorites));
     }
 };

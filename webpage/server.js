@@ -79,11 +79,5 @@ app.get('/getTable', function(req, res) {
 });
 
 
-
-
-
-
-// todo add username, channel name, and server name to db tables
-
 // todo add db for logging when menus have been sent for the day
 // In case the bot restarts, don't want to send menus twice

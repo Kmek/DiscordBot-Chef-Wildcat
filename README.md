@@ -120,3 +120,7 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
 
  <!-- idea
  Direct console.log output to a channel on my testing server -->
+
+ <!-- idea
+ table for logging if the menus have been sent for the day 
+ also table for keeping track of the valid items -->

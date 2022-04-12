@@ -19,7 +19,7 @@ module.exports = {
             let channelId = interaction.channel.id;
             let item = interaction.options.getString("item");
 
-            if (await addFavorite(channelId, item)) {
+            if (await addFavorite(channelId, interaction.user.username, item)) {
                 interaction.followUp("Favorited " + item);
             } else {
                 interaction.followUp("Unable to favorite " + item);

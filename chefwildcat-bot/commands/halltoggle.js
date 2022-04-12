@@ -23,7 +23,12 @@ module.exports = {
 
         try {
             // Toggle hall subscription
-            if (await toggleHallSubscription(interaction.guild ? interaction.guild.id : null, interaction.channel.id, hallName)) {
+            if (await toggleHallSubscription(
+                interaction.guild ? interaction.guild.id : null, 
+                interaction.guild ? interaction.guild.name : null, 
+                interaction.channel.id, 
+                interaction.guild ? interaction.channel.name : interaction.user.username,
+                hallName)) {
                 interaction.followUp(":white_check_mark: Subscribed to " + hallName);
             } else {
                 interaction.followUp(":x: Unsubscribed to " + hallName);

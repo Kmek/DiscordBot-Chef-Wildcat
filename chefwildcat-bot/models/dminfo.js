@@ -14,6 +14,10 @@ const DmInfo = sequelizeInstance.define('DmInfo', {
         allowNull: false,
         unique: true,
     },
+    username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     favorites: {
         type: Sequelize.JSON,
         allowNull: true,
@@ -67,7 +71,7 @@ module.exports.sendFavoritesEmbedMessage = async (interaction, channel) => {
 }
 
 // Add a favorite to the list
-module.exports.addFavorite = async (channel, menuItem) => {
+module.exports.addFavorite = async (channel, username, menuItem) => {
     // Check if hallName and date already have an entry
     const found = await DmInfo.findOne({ where: {
             channel: channel
@@ -79,6 +83,7 @@ module.exports.addFavorite = async (channel, menuItem) => {
         // If no row is found, then create it
         await DmInfo.create({
             channel: channel,
+            username: username,
             favorites: [menuItem]
         });
         return true;
