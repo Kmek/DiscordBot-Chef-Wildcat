@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DB Tool</title>
-    <link rel="icon" href="https://www.freeiconspng.com/thumbs/chef-hat-png/chef-hat-png-10.png" type="image/gif">
+    <title>Sequelize Eyes</title>
+    <link rel="icon" href="./media/eye.png" type="image/gif">
 
     <!-- Styles -->
     <link rel="stylesheet" href="./styles/page.css">
@@ -14,11 +14,10 @@
 <body>
     <div id="page">
         <div id="header">
-            <img src="./media/profile.png"/>
-            <h1>DB Viewing Tool</h1>
-            <!-- todo better name? -->
-            <img src="./media/profile.png"/>
-            <h3>Made for Chef Wildcat</h3>
+            <img src="./media/eye.png" style="background-color:white;"/>
+            <h1>Sequelize Eyes</h1>
+            <img src="./media/eye.png" style="background-color:white;"/>
+            <h3>A DB Table Viewer for Sequelize from NodeJS</h3>
         </div>
 
         <div class="row"><div>
@@ -27,7 +26,11 @@
             <div id="tablesDiv"></div>
         </div></div>
 
-        
+        <div class="row"><div>
+            <h2 id="tableDisplayTitle">Table:</h2>
+            <div id="tableDisplay">No table selected yet.</div>
+            <p id="tableDisplayTimestamp"></p>
+        </div></div>
 
     </div>
 

@@ -14,3 +14,39 @@
     height: 30px;
     width: 100%;
 }
+
+/********** tablesDisplay **********/
+#tableDisplay {
+    overflow: scroll;
+    width: 95%;
+    padding-right: 3%;
+    padding-left: 2%;
+    margin-top: 10px;
+    max-height: 700px;
+    resize: vertical;
+
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-auto-flow: row;
+    column-gap: 15px;
+    row-gap: 10px;
+
+    border: 1px solid black;
+}
+
+#tableDisplay > h3 {
+    margin: 0;
+    padding-top: 10px;
+}
+
+#tableDisplay > p {
+    max-width: 400px;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+#tableDisplayTimestamp {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-style: italic;
+}
