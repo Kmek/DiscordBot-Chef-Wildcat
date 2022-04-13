@@ -154,8 +154,8 @@ module.exports.sendMenusDaily = async (client) => {
             sendMenusDailyDms(client, halls);
         });
 
-    //todo log this was sent
-
+    const { logMessage } = require('../bot.js');
+    logMessage(":incoming_envelope: Daily menu subscriptions sent!");
 }
 
 // Sends the server subscriptions

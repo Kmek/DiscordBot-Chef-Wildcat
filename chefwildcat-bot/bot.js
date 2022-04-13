@@ -28,6 +28,7 @@ client.on("ready", async () => {
     console.log("\n" + client.user.username);
     client.user.setActivity("UNH Menus", {type: "WATCHING"}); 
     console.log("I am ready!\n");
+    exports.logMessage(":cat2: ChefWildcat has started up!");
 
     // Connect to PostgreSQL
     try {
@@ -47,6 +48,16 @@ client.on("ready", async () => {
         console.log("Sending menus for the day!");
         sendMenusDaily(client)
             .then(console.log("Menus sent for the day!"));
+    });
+
+    // Schedule a health check every half an hour
+    const healthCheck = schedule.scheduleJob('* */1 * * *', function() {
+        // Verify connection to the DB
+        sequelizeInstance.authenticate()
+            .catch(err => {
+                console.error('Unable to connect to the database:', err);
+                exports.logErrorMessage(":bangbang: Failed sequelize connection verification healthcheck!");
+            });
     });
 });
 
@@ -87,3 +98,17 @@ client.on('interactionCreate', async interaction => {
 
 // Go!
 client.login(config.token);
+
+// ******************** Exports ******************** //
+// Send a message in the saved log channel
+exports.logMessage = async (text) => {
+    client.channels.cache.get(config.logChannelId).send(text);
+}
+
+// Send an alert because an error occurred
+// Pings the admin role
+exports.logErrorMessage = async (text) => {
+    client.channels.cache.get(config.logChannelId).send("<@&" 
+    + client.channels.cache.get(config.logChannelId).guild.roles.cache.find(r => r.name === config.adminRole).id 
+    + "> " + text);
+}

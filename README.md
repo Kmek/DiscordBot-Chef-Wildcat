@@ -25,8 +25,9 @@ Create a `config.json` file with the following format.
 {
     "token": "bot token here",
     "clientId": "oath2 client id here",
-    "guildId": "testing server id here",
-    "adminRole": "role name here, for running certain commands"
+    "guildId": "testing server guild id here",
+    "adminRole": "role name here, for running certain commands",
+    "logChannelId": "channel id for the logging channel, bot must already be in the server"
 }
 ```
  <!-- todo add image url to config -->
@@ -89,7 +90,7 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
 <!-- 
 - search for a menu items
 - dislike, removedislike
-- showsubs
+- refresh (refreshes subscribed menus)
 - help
  -->
 
@@ -114,10 +115,6 @@ Refreshes the subscribed menus for the subscriptions in the given channel or dir
  is this faster/better than fetching from the db all the time?
  Should there be a diningHall object that is just returned from the db and passed around per interaction?
  -->
-
- <!-- idea
- Add another database to keep track of known menu items, 
- for verifying favorites -->
 
  <!-- idea
  Direct console.log output to a channel on my testing server -->

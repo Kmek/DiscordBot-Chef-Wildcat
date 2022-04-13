@@ -45,9 +45,7 @@ sequelizeInstance
 // Connect to PostgreSQL
 (async () => {
     try {
-        // await sequelizeInstance.sync();
-        // await sequelizeInstance.sync({ force: true }); // For recreating tables
-        await sequelizeInstance.sync({ alter: true }) // For updating models with saving rows as best as possible
+        await sequelizeInstance.sync();
         console.log("Connection to postgres complete!\n");
     } catch (e) {
         console.log(e);
@@ -77,7 +75,3 @@ app.get('/getTable', function(req, res) {
     // todo check model exists, if not then return empty
     sequelizeInstance.models[req.query.table].findAll().then(x => res.json(x));
 });
-
-
-// todo add db for logging when menus have been sent for the day
-// In case the bot restarts, don't want to send menus twice
