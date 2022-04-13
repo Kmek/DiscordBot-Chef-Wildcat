@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const { sequelizeInstance } = require('../util/database.js');
+const { addMenuItems } = require('./menuitems.js');
 const { DiningHalls, diningHallToId } = require('./dininghalls.js');
 
 const ScrapeCache = sequelizeInstance.define('ScrapeCache', {
@@ -65,7 +66,10 @@ module.exports.saveScrapeToCache = async (hallName, mealTime, date, data) => {
         date: date,
         DiningHallId: await diningHallToId(hallName)
     }
-    cache[mealTime.toLowerCase()] = data; 
+    cache[mealTime.toLowerCase()] = data;
+
+    // Add the known menu items to the MenuItems table
+    addMenuItems(data);
 
     // Check if hallName and date already have an entry
     const foundCache = await ScrapeCache.findOne({ where: {
