@@ -57,18 +57,6 @@ module.exports = {
 // Note: How to send a direct message (using channelID)
 // (await client.channels.fetch('938115394953158656')).recipient.send("HELLLLOO");
 
-// ******************** Check Role ********************//
-// Check if on a server the user has the correct admin role
-// Note: returns true if user has the server role and false if not
-module.exports.hasServerRole = (interaction) => {
-    if (interaction.guild && 
-        !(interaction.member.roles.cache.find(r => r.name === adminRole))) {
-        interaction.followUp({content: "Error: You don't have the role to do that here", ephemeral: true });
-        return false;
-    }
-    return true;
-}
-
 // ******************** Subscriptions ********************//
 
 // toggles the given hall for the given channel in a server

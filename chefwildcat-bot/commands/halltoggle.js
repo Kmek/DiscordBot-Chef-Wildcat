@@ -1,6 +1,7 @@
 // HallToggle command
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { toggleHallSubscription, hasServerRole } = require('../models/subs');
+const { toggleHallSubscription } = require('../models/subs');
+const { hasServerRole } = require('../util/db-helpers');
 
 module.exports = {
     data: new SlashCommandBuilder()

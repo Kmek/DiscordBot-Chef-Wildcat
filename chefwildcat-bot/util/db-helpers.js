@@ -51,6 +51,21 @@ exports.printDB = (model) => {
 //     return formatted;
 // }
 
+// ******************** Check Role ********************//
+// Check if on a server the user has the correct admin role
+// Note: returns true if user has the server role and false if not
+module.exports.hasServerRole = (interaction) => {
+    if (interaction.guild && 
+        !(interaction.member.roles.cache.find(r => r.name === adminRole))) {
+        interaction.followUp({content: "Error: You don't have the role to do that here", ephemeral: true });
+        return false;
+    }
+    return true;
+}
+
+//todo return
+
+// ******************** Check Role ********************//
 // Scrapes the given url for a list of menu items
 // Note that mealtime must be either 'Breakfast' 'Lunch' or 'Dinner' (caps matter!)
 exports.scrapeUrl = async (hallName, mealTime, menuUrl) => {
@@ -149,7 +164,6 @@ exports.buildAllMealEmbedMessages = async (mealTime, favorites) => {
 
     return embeds;
 } 
-// idea combine this and the above into one condensed function
 
 // Sends all of the given embedded messages
 exports.sendAllEmbedMessages = async (interaction, embeds) => {
