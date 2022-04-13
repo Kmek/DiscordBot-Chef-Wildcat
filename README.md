@@ -10,6 +10,7 @@ Can be installed with `npm install <package>`
  - sequelize
  - axios
  - cheerio
+ - node-schedule
 
 <!-- ### `/WebPage` NodeJS Dependencies To Install with NPM
 Can be installed with `npm install <package>`

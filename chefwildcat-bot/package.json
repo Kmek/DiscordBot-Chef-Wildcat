@@ -22,6 +22,7 @@
     "cheerio": "^1.0.0-rc.10",
     "console": "^0.7.2",
     "discord.js": "^13.6.0",
+    "node-schedule": "^2.1.0",
     "pg": "^8.7.1",
     "sequelize": "^6.15.0"
   }

@@ -2,6 +2,9 @@ const { MessageEmbed } = require('discord.js');
 const Sequelize = require('sequelize');
 const { sequelizeInstance } = require('../util/database.js');
 const { adminRole } = require("../config.json");
+const { getHallShortnames } = require('./dininghalls.js');
+const { buildAllMenuEmbedMessages } = require('../util/db-helpers.js');
+const { getFavorites } = require('./dminfo.js');
 
 const Subs = sequelizeInstance.define('Subs', {
     id: {
@@ -48,10 +51,10 @@ module.exports = {
     Subs: Subs
 };
 
-// Note: How to send a server message
+// Note: How to send a server message (using channelID)
 // client.channels.cache.get('937879069532508200').send('HELLO!');
 
-// Note: How to send a direct message
+// Note: How to send a direct message (using channelID)
 // (await client.channels.fetch('938115394953158656')).recipient.send("HELLLLOO");
 
 // ******************** Check Role ********************//
@@ -140,4 +143,68 @@ module.exports.sendSubscriptionsEmbedMessage = async (interaction) => {
     embed.addField("Stillings", subs.stillings ? ":white_check_mark: Subscribed" : ":x: Not Subscribed");
 
     interaction.followUp({ embeds: [embed] });
+}
+
+// ******************** Send the Menus Daily ********************//
+// Function for sending all of the menus for the day to the subscribed channels
+module.exports.sendMenusDaily = async (client) => {
+    getHallShortnames()
+        .then(halls => {
+            sendMenusDailyServers(client, halls);
+            sendMenusDailyDms(client, halls);
+        });
+
+    //todo log this was sent
+
+}
+
+// Sends the server subscriptions
+async function sendMenusDailyServers(client, halls) {
+    let embeds = {};
+
+    for await (const hall of halls) {
+        embeds[hall] = await buildAllMenuEmbedMessages(hall, []);
+    }
+
+    Subs.findAll({ where: {
+        guild: {
+            [Sequelize.Op.not]: null,
+        },
+    }}).then(subs => subs
+            .forEach(row => {
+                let channel = client.channels.cache.get(row.channel);
+                halls.forEach(hall => {
+                    if (row[hall])
+                        if (embeds[hall].length > 0)
+                            embeds[hall].forEach(embed => channel.send({ embeds: [embed] }));
+                        else 
+                            channel.send("No menus today for " + hall);
+                });
+            }));
+}
+
+// Sends the channel subscriptions
+async function sendMenusDailyDms(client, halls) {
+    Subs.findAll({ where: {
+        guild: {
+            [Sequelize.Op.is]: null,
+        },
+    }}).then(subs => subs
+            .forEach(row => {
+                client.channels.fetch(row.channel)
+                    .then(channel => {
+                        getFavorites(channel.id)
+                            .then(favorites => {
+                                halls.forEach(hall => {
+                                    if (row[hall]) buildAllMenuEmbedMessages(hall, favorites)
+                                        .then(embeds => {
+                                            if (embeds.length > 0)
+                                                embeds.forEach(embed => channel.send({ embeds: [embed] }));
+                                            else 
+                                                channel.send("No menus today for " + hall);
+                                        });
+                                });
+                            });
+                    });
+            }));
 }

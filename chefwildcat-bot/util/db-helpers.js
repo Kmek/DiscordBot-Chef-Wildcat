@@ -1,7 +1,7 @@
 // Helper functions for manipulating the postgres database
 
 const { MessageEmbed } = require('discord.js');
-const { diningHallToId, getHallUrl } = require("../models/dininghalls");
+const { getHallUrl } = require("../models/dininghalls");
 const { getCachedScrape, saveScrapeToCache } = require("../models/scrapecache");
 const axios = require('axios');
 const cheerio = require('cheerio');
@@ -82,26 +82,27 @@ exports.scrapeUrl = async (hallName, mealTime, menuUrl) => {
 exports.createEmbedMessage = (data, menuUrl, mealtime, diningHall, favorites) => {
     let embed = new MessageEmbed()
         .setColor('#093e9e')
-        .setTitle(mealtime + ' Menu')
+        .setTitle(diningHall + " " + mealtime + ' Menu')
         .setURL(menuUrl)
-        .setAuthor({ name: diningHall, iconURL: 'https://i.imgur.com/0ZodGCo.png', url: menuUrl })
-        .setDescription('Some description here') // todo add date of menu
-        .setThumbnail("https://i.imgur.com/0ZodGCo.png")
+        .setAuthor({ name: "Chef Wildcat", iconURL: 'https://i.imgur.com/0ZodGCo.png', url: menuUrl })
+        .setThumbnail("https://i.imgur.com/0ZodGCo.png") // todo add image of dining hall
         .setTimestamp()
         .setFooter({ text: diningHall + ' ' + mealtime + ' Menu', iconURL: 'https://i.imgur.com/0ZodGCo.png' });
 
-    let title = data[0], list = "";
-    for (let i = 1; i < data.length; i++) {
+    let title = "", list = "";
+    for (let i = 0; i < data.length; i++) {
         if ((data[i]).startsWith("-- ")) {
-            embed.addField(title, list, true); // todo add compact as a server subscription option?
+            if (i > 0)
+                embed.addField(title, list, true); // todo add compact as a server subscription option?
             // console.log(i, data[i])
-            title = data[i];
+            title = data[i].replace("--", "").replace("--", "").trim();
             list = "";
         } else {
             // console.log("\t" + i + " " + data[i])
-            if (favorites.includes(data[i])) {
+            if (favorites.includes(data[i].toLowerCase()))
                 list += ":star:";
-            } else { list += "- "; }
+            else 
+                list += "- ";
             list += data[i] + "\n";
         }
     }
@@ -152,8 +153,6 @@ exports.buildAllMealEmbedMessages = async (mealTime, favorites) => {
 
 // Sends all of the given embedded messages
 exports.sendAllEmbedMessages = async (interaction, embeds) => {
-    // embeds = await exports.buildAllMealEmbedMessages(mealTime);
-
     if (embeds.length == 0) {
         console.log("\tNo menu items found");
         await interaction.editReply("Error: No menus found");

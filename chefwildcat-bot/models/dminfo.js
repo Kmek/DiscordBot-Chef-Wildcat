@@ -78,6 +78,9 @@ module.exports.addFavorite = async (channel, username, menuItem) => {
         }
     });
 
+    // Always store lowercase
+    menuItem = menuItem.toLowerCase();
+
     if (!found || !found.favorites) {
         console.log("\tCreating new row");
         // If no row is found, then create it
@@ -100,13 +103,16 @@ module.exports.addFavorite = async (channel, username, menuItem) => {
     return false;
 }
 
-// Remove a favorite from the list
+// This remove a favorite from the list
 module.exports.removeFavorite = async (channel, menuItem) => {
     // Check if hallName and date already have an entry
     const found = await DmInfo.findOne({ where: {
             channel: channel
         }
     });
+
+    // To match saved lowercase saved items
+    menuItem = menuItem.toLowerCase();
 
     if (!found || !found.favorites) {
         console.log("\tNo row to remove items from");

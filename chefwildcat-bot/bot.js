@@ -4,9 +4,11 @@
 // Imports
 const config = require("./config.json");
 const fs = require('fs');
+const schedule = require('node-schedule');
 const { Client, Intents, Collection } = require('discord.js');
 const { sequelizeInstance } = require('./util/database.js');
 const { initializeDiningHalls } = require("./models/dininghalls");
+const { sendMenusDaily } = require("./models/subs");
 
 // Make client
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, 
@@ -39,6 +41,13 @@ client.on("ready", async () => {
         console.log("ERROR: unable to connect to db!");
         process.exit();
     }
+
+    // Schedule job for 6am every day
+    const job = schedule.scheduleJob('0 5 * * *', function() {
+        console.log("Sending menus for the day!");
+        sendMenusDaily(client)
+            .then(console.log("Menus sent for the day!"));
+    });
 });
 
 // // Dynamic parsing of DMed commands

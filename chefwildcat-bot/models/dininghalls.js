@@ -23,6 +23,7 @@ const DiningHalls = sequelizeInstance.define('DiningHalls', {
         allowNull: false,
         unique: true,
     },
+    //todo add image column
 });
 
 // Create dining hall rows once
@@ -55,6 +56,8 @@ module.exports = {
     DiningHalls: DiningHalls,
     async initializeDiningHalls() { await initialize() }
 };
+
+//todo grab DiningHall rows once for helper functions (this data won't change without enough notice to add another row)
 
 // Function for finding the id of a hall given the hall name
 module.exports.diningHallToId = async (hallName) => {
@@ -90,6 +93,17 @@ module.exports.getHallUrl = async (hallName) => {
             // console.log("id: " + x[0].id);
             toReturn = x[0].url;
         }).catch(e => {
+            console.log('Oops! something went wrong, : ', e);
+        });
+    return toReturn;
+}
+
+// Gets the dining hall lowercase names in an array
+module.exports.getHallShortnames = async () => {
+    let toReturn = [];
+    await DiningHalls.findAll()
+        .then(halls => halls.forEach(hall => toReturn.push(hall.hall)))
+        .catch(e => {
             console.log('Oops! something went wrong, : ', e);
         });
     return toReturn;
