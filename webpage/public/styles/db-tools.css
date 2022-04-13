@@ -17,12 +17,13 @@
 
 /********** tablesDisplay **********/
 #tableDisplay {
-    overflow: scroll;
+    overflow: auto;
     width: 95%;
     padding-right: 3%;
     padding-left: 2%;
     margin-top: 10px;
     max-height: 700px;
+    padding-bottom: 10px;
     resize: vertical;
 
     display: grid;
@@ -35,8 +36,16 @@
 }
 
 #tableDisplay > h3 {
+    position: sticky;
+    top: 0;
+
+    width: 100%;
     margin: 0;
     padding-top: 10px;
+    padding-bottom: 5px;
+
+    background-color: var(--offwhite);
+    border-bottom: 1px solid black;
 }
 
 #tableDisplay > p {
