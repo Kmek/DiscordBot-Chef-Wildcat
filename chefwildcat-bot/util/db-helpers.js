@@ -3,6 +3,7 @@
 const { MessageEmbed } = require('discord.js');
 const { getHallUrl } = require("../models/dininghalls");
 const { getCachedScrape, saveScrapeToCache } = require("../models/scrapecache");
+const { adminRole } = require("../config.json");
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -62,8 +63,6 @@ module.exports.hasServerRole = (interaction) => {
     }
     return true;
 }
-
-//todo return
 
 // ******************** Check Role ********************//
 // Scrapes the given url for a list of menu items

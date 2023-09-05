@@ -1,7 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const Sequelize = require('sequelize');
 const { sequelizeInstance } = require('../util/database.js');
-const { adminRole } = require("../config.json");
 const { getHallShortnames } = require('./dininghalls.js');
 const { buildAllMenuEmbedMessages } = require('../util/db-helpers.js');
 const { getFavorites } = require('./dminfo.js');

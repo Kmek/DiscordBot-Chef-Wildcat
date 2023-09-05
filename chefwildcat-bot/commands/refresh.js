@@ -8,6 +8,8 @@ module.exports = {
     async execute(interaction) {
         // await interaction.deferReply();
 
+        // todo
+
         // await interaction.editReply({ embeds: [embed, embed]});
         await interaction.followUp('Pong again!');
     }

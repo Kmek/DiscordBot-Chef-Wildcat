@@ -51,7 +51,7 @@ client.on("ready", async () => {
     });
 
     // Schedule a health check every half an hour
-    const healthCheck = schedule.scheduleJob('* */1 * * *', function() {
+    const healthCheck = schedule.scheduleJob('* */30 * * *', function() {
         // Verify connection to the DB
         sequelizeInstance.authenticate()
             .catch(err => {
